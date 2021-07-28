@@ -26,7 +26,7 @@ import java.util.List;
 import android.content.Loader;
 
 
-public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>>, SharedPreferences.OnSharedPreferenceChangeListener {
+public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>> {
 
     private static final String REQUEST_URL =
             "https://content.guardianapis.com/search";
@@ -49,12 +49,12 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
         articleListView.setEmptyView(mEmptyStateTextView);
 
-        mAdapter = new ArticleAdapter(this, new ArrayList<Article>());
+        mAdapter = new ArticleAdapter(this, new ArrayList<>());
 
         articleListView.setAdapter(mAdapter);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.registerOnSharedPreferenceChangeListener(this);
+        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);*/
 
         articleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,7 +86,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
-    @Override
+    /*@Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (key.equals(getString(R.string.settings_max_articles_key)) ||
                 key.equals(getString(R.string.settings_order_by_key))){
@@ -100,7 +100,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
             getLoaderManager().restartLoader(EARTHQUAKE_LOADER_ID, null, this);
         }
-    }
+    }*/
 
     @Override
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {

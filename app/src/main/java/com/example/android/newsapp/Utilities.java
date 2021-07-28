@@ -26,8 +26,6 @@ public class Utilities {
 
     private static final String LOG_TAG = Utilities.class.getSimpleName();
 
-    private static final String REQUEST_URL =
-            "https://content.guardianapis.com/search?order-by=newest&page-size=20&q=covid&api-key=test";
 
     private Utilities() {
 
@@ -81,7 +79,7 @@ public class Utilities {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the News Article JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -113,19 +111,19 @@ public class Utilities {
             return null;
         }
 
-        List<Article> articles = articleData(REQUEST_URL);
+        List<Article> articles = new ArrayList<Article>();
 
         try {
 
             JSONObject baseJsonResponse = new JSONObject(articleJSON);
 
-            JSONArray articleArray = baseJsonResponse.getJSONArray("features");
+            JSONArray articleArray = baseJsonResponse.toJSONArray(baseJsonResponse.names());
 
             for (int i = 0; i < articleArray.length(); i++) {
 
-                JSONObject currentEarthquake = articleArray.getJSONObject(i);
+                JSONObject currentArticle = articleArray.getJSONObject(i);
 
-                JSONObject properties = currentEarthquake.getJSONObject("properties");
+                JSONArray properties = currentArticle.getJSONArray("results");
 
                 String category = properties.getString("sectionName");
 
@@ -146,7 +144,7 @@ public class Utilities {
             }
 
         } catch (JSONException e) {
-            Log.e("Utilities", "Problem parsing the earthquake JSON results", e);
+            Log.e("Utilities", "Problem parsing the News Article JSON results", e);
         }
 
         return articles;
