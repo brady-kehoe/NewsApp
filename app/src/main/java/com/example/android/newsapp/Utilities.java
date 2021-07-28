@@ -15,18 +15,25 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Utilities {
 
     private static final String LOG_TAG = Utilities.class.getSimpleName();
 
+    private static final String REQUEST_URL =
+            "https://content.guardianapis.com/search?order-by=newest&page-size=20&q=covid&api-key=test";
+
     private Utilities() {
 
     }
 
-    public static List<Article> ArticleData(String requestUrl){
+    public static List<Article> articleData(String requestUrl){
         URL url = createUrl(requestUrl);
 
         String jsonResponse = null;
@@ -106,7 +113,7 @@ public class Utilities {
             return null;
         }
 
-        List<Article> articles = new ArrayList<>();
+        List<Article> articles = articleData(REQUEST_URL);
 
         try {
 
@@ -124,7 +131,10 @@ public class Utilities {
 
                 String location = properties.getString("webTitle");
 
-                long time = properties.getLong("webPublicationDate");
+                String rawDate = properties.getString("webPublicationDate");
+
+                // Format the date
+                String time = formatDate(rawDate);
 
                 //String author = properties.getString("firstName" +" " + "lastName");
 
@@ -140,5 +150,19 @@ public class Utilities {
         }
 
         return articles;
+    }
+
+    private static String formatDate(String rawDate) {
+        String jsonDatePattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        SimpleDateFormat jsonFormatter = new SimpleDateFormat(jsonDatePattern, Locale.US);
+        try {
+            Date parsedJsonDate = jsonFormatter.parse(rawDate);
+            String finalDatePattern = "MMM d, yyy";
+            SimpleDateFormat finalDateFormatter = new SimpleDateFormat(finalDatePattern, Locale.US);
+            return finalDateFormatter.format(parsedJsonDate);
+        } catch (ParseException e) {
+            Log.e("QueryUtils", "Error parsing JSON date: ", e);
+            return "";
+        }
     }
 }

@@ -17,23 +17,24 @@
         android:id="@+id/contents_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="18dp"
         android:layout_below="@id/header_view"
         tools:text="Content"/>
 
-    <TextView
+    <!--   <TextView
         android:id="@+id/author_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/contents_view"
-        tools:text="Author"/>
+        tools:text="Author"/> -->
 
 
     <TextView
         android:id="@+id/date_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/author_view"
         android:layout_below="@id/contents_view"
+        android:layout_alignParentRight="true"
         tools:text="Date"/>
 
 

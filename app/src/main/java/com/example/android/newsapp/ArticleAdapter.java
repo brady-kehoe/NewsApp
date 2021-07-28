@@ -36,24 +36,15 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         TextView articleContents = (TextView) listItemView.findViewById(R.id.contents_view);
         articleContents.setText(currentArticle.getContents());
         //TextView articleAuthor = (TextView) listItemView.findViewById(R.id.author_view);
-       // if (currentArticle.hasAuthor()) {
+        // if (currentArticle.hasAuthor()) {
         //    articleAuthor.setText(currentArticle.getAuthor());
-       //     articleAuthor.setVisibility(View.VISIBLE);
-       // } else {
-      //      articleAuthor.setVisibility(View.GONE);
-       // }
-
-        Date dateObject = new Date(currentArticle.getTimeInMilliseconds());
-
-        TextView dateView = (TextView) listItemView.findViewById(R.id.date_view);
-        String formattedDate = formatDate(dateObject);
-        dateView.setText(formattedDate);
+        //     articleAuthor.setVisibility(View.VISIBLE);
+        // } else {
+        //      articleAuthor.setVisibility(View.GONE);
+        // }
+        TextView articlePublishDateView = listItemView.findViewById(R.id.date_view);
+        articlePublishDateView.setText(currentArticle.getTime());
 
         return listItemView;
-    }
-
-    private String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
-        return dateFormat.format(dateObject);
     }
 }

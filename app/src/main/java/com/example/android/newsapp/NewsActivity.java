@@ -1,5 +1,6 @@
 package com.example.android.newsapp;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 
@@ -28,10 +29,11 @@ import android.content.Loader;
 public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>>, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String REQUEST_URL =
-            "https://content.guardianapis.com/search?order-by=newest&page-size=20&q=covid&api-key=test";
+            "https://content.guardianapis.com/search";
 
     private static final int EARTHQUAKE_LOADER_ID = 1;
 
+    private static final String GUARDIAN_KEY = "3bc87737-4458-4450-9bc4-77a6933ac52b";
 
     private ArticleAdapter mAdapter;
 
@@ -86,7 +88,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (key.equals(getString(R.string.settings_min_magnitude_key)) ||
+        if (key.equals(getString(R.string.settings_max_articles_key)) ||
                 key.equals(getString(R.string.settings_order_by_key))){
 
             mAdapter.clear();
@@ -104,22 +106,22 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String minMagnitude = sharedPrefs.getString(
-                getString(R.string.settings_min_magnitude_key),
-                getString(R.string.settings_min_magnitude_default));
+
+        String articleCount = sharedPrefs.getString(
+                getString(R.string.settings_max_articles_key),
+                getString(R.string.settings_max_articles_default));
 
         String orderBy = sharedPrefs.getString(
                 getString(R.string.settings_order_by_key),
-                getString(R.string.settings_order_by_default)
-        );
+                getString(R.string.settings_order_by_default));
 
         Uri baseUri = Uri.parse(REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        uriBuilder.appendQueryParameter("format", "geojson");
-        uriBuilder.appendQueryParameter("limit", "10");
-        uriBuilder.appendQueryParameter("minmag", minMagnitude);
-        uriBuilder.appendQueryParameter("orderby", orderBy);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter("page-size", articleCount);
+        uriBuilder.appendQueryParameter("q", "covid");
+        uriBuilder.appendQueryParameter("api-key", GUARDIAN_KEY);
 
         return new NewsLoader(this, uriBuilder.toString());
     }

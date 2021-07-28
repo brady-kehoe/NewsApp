@@ -6,17 +6,17 @@ public class Article {
 
     private final String mTitle;
 
-    private final long mTimeInMilliseconds;
+    private final String mTime;
 
     private String mAuthor;
 
 
     private final String mUrl;
 
-    public Article(String category, String title, long timeInMilliseconds, String url) {
+    public Article(String category, String title, String time, String url) {
         mCategory = category;
         mTitle = title;
-        mTimeInMilliseconds = timeInMilliseconds;
+        mTime = time;
         mUrl = url;
     }
 
@@ -38,9 +38,9 @@ public class Article {
         return mTitle;
     }
 
-    public long getTimeInMilliseconds()
+    public String getTime()
     {
-        return mTimeInMilliseconds;
+        return mTime;
     }
 
     /*public String getAuthor()
