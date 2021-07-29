@@ -4,11 +4,6 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import java.util.List;
 
-
-
-import java.util.Collection;
-import java.util.List;
-
 public class NewsLoader extends AsyncTaskLoader<List<Article>> {
 
 

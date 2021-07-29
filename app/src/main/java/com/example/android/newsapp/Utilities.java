@@ -1,12 +1,11 @@
 package com.example.android.newsapp;
 
+import android.app.Activity;
 import android.text.TextUtils;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Utilities {
+public class Utilities extends Activity {
 
     private static final String LOG_TAG = Utilities.class.getSimpleName();
 
@@ -110,42 +109,37 @@ public class Utilities {
         if (TextUtils.isEmpty(articleJSON)) {
             return null;
         }
-
+        String author = "";
         List<Article> articles = new ArrayList<Article>();
 
         try {
 
-            JSONObject baseJsonResponse = new JSONObject(articleJSON);
+            JSONObject myJsonObject = new JSONObject(articleJSON);
+            JSONObject myResponseObj = myJsonObject.getJSONObject("response");
+            JSONArray newsInfoArray = myResponseObj.getJSONArray(("results"));
 
-            JSONArray articleArray = baseJsonResponse.toJSONArray(baseJsonResponse.names());
+            for (int i = 0; i < newsInfoArray.length(); i++) {
 
-            for (int i = 0; i < articleArray.length(); i++) {
+                JSONArray referencesArray = newsInfoArray.getJSONObject(i).getJSONArray("references");
 
-                JSONObject currentArticle = articleArray.getJSONObject(i);
+                if (referencesArray.length() > 0){
+                    author = capitalize(referencesArray.getJSONObject(0).getString("id").replace("-", " ").replace("author/", ""));
+                }
+                Article myArticle = new Article(newsInfoArray.getJSONObject(i).getString("sectionName"),
+                        newsInfoArray.getJSONObject(i).getString("webTitle"),
+                        formatDate(newsInfoArray.getJSONObject(i).getString("webPublicationDate")),
+                        author,
+                        newsInfoArray.getJSONObject(i).getString("webUrl"));
 
-                JSONArray properties = currentArticle.getJSONArray("results");
 
-                String category = properties.getString("sectionName");
-
-                String location = properties.getString("webTitle");
-
-                String rawDate = properties.getString("webPublicationDate");
-
-                // Format the date
-                String time = formatDate(rawDate);
-
-                //String author = properties.getString("firstName" +" " + "lastName");
-
-                String url = properties.getString("webUrl");
-
-                Article article = new Article(category, location, time, url);
-
-                articles.add(article);
+                articles.add(myArticle);
             }
 
+
         } catch (JSONException e) {
-            Log.e("Utilities", "Problem parsing the News Article JSON results", e);
+            e.printStackTrace();
         }
+
 
         return articles;
     }
@@ -162,5 +156,19 @@ public class Utilities {
             Log.e("QueryUtils", "Error parsing JSON date: ", e);
             return "";
         }
+    }
+
+    public static String capitalize(String string) {
+        char[] chars = string.toLowerCase().toCharArray();
+        boolean found = false;
+        for (int i = 0; i < chars.length; i++) {
+            if (!found && Character.isLetter(chars[i])) {
+                chars[i] = Character.toUpperCase(chars[i]);
+                found = true;
+            } else if (Character.isWhitespace(chars[i]) || chars[i]=='.' || chars[i]=='\'') { // You can add other chars here
+                found = false;
+            }
+        }
+        return String.valueOf(chars);
     }
 }

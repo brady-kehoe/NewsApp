@@ -6,14 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.core.content.ContextCompat;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ArticleAdapter extends ArrayAdapter<Article> {
 
@@ -35,13 +29,13 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         articleHeader.setText(currentArticle.getHeader());
         TextView articleContents = (TextView) listItemView.findViewById(R.id.contents_view);
         articleContents.setText(currentArticle.getContents());
-        //TextView articleAuthor = (TextView) listItemView.findViewById(R.id.author_view);
-        // if (currentArticle.hasAuthor()) {
-        //    articleAuthor.setText(currentArticle.getAuthor());
-        //     articleAuthor.setVisibility(View.VISIBLE);
-        // } else {
-        //      articleAuthor.setVisibility(View.GONE);
-        // }
+        TextView articleAuthor = (TextView) listItemView.findViewById(R.id.author_view);
+         if (currentArticle.hasAuthor() == 0) {
+            articleAuthor.setText(currentArticle.getAuthor());
+            articleAuthor.setVisibility(View.VISIBLE);
+            } else {
+             articleAuthor.setVisibility(View.GONE);
+            }
         TextView articlePublishDateView = listItemView.findViewById(R.id.date_view);
         articlePublishDateView.setText(currentArticle.getTime());
 

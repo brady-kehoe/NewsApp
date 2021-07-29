@@ -11,22 +11,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Header"
+        android:textColor="@color/main_theme_color"
+        android:textSize="24sp"
+        android:layout_margin="16dp"
         android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/contents_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
+        android:textSize="20sp"
+        android:layout_margin="8dp"
+        android:textColor="@color/black"
         android:layout_below="@id/header_view"
         tools:text="Content"/>
 
-    <!--   <TextView
+    <TextView
         android:id="@+id/author_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/contents_view"
-        tools:text="Author"/> -->
+        android:textSize="18sp"
+        android:layout_margin="16dp"
+        tools:text="Author"/>
 
 
     <TextView
@@ -34,8 +41,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/contents_view"
+        android:textSize="18sp"
+        android:layout_margin="16dp"
         android:layout_alignParentRight="true"
-        tools:text="Date"/>
+        tools:text="Date"
+        android:layout_alignParentEnd="true" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/sub_theme_color"/>
 
 
 </RelativeLayout>

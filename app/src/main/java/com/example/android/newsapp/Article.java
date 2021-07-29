@@ -1,5 +1,7 @@
 package com.example.android.newsapp;
 
+import android.view.View;
+
 public class Article {
 
     private final String mCategory;
@@ -10,23 +12,16 @@ public class Article {
 
     private String mAuthor;
 
-
     private final String mUrl;
 
-    public Article(String category, String title, String time, String url) {
+
+    public Article(String category, String title, String time, String author, String url) {
         mCategory = category;
         mTitle = title;
         mTime = time;
-        mUrl = url;
-    }
-
-    /*public Article(String category, String title, long timeInMilliseconds, String author, String url) {
-        mCategory = category;
-        mTitle = title;
-        mTimeInMilliseconds = timeInMilliseconds;
         mAuthor = author;
         mUrl = url;
-    }*/
+    }
 
     public String getHeader()
     {
@@ -43,20 +38,20 @@ public class Article {
         return mTime;
     }
 
-    /*public String getAuthor()
+    public String getAuthor()
     {
         return mAuthor;
     }
 
-    public boolean hasAuthor()
+    public int hasAuthor()
     {
         String auth = mAuthor;
-        if (auth != null)
-            return true;
+        if (!auth.equals(""))
+            return View.VISIBLE;
         else
-            return false;
+            return View.GONE;
 
-    }*/
+    }
 
     public String getUrl() {
         return mUrl;

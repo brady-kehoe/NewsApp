@@ -2,8 +2,6 @@ package com.example.android.newsapp;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
@@ -19,10 +17,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import android.content.Loader;
 
 
@@ -52,9 +48,6 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter = new ArticleAdapter(this, new ArrayList<>());
 
         articleListView.setAdapter(mAdapter);
-
-        /*SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        prefs.registerOnSharedPreferenceChangeListener(this);*/
 
         articleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,22 +79,6 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         }
     }
 
-    /*@Override
-    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-        if (key.equals(getString(R.string.settings_max_articles_key)) ||
-                key.equals(getString(R.string.settings_order_by_key))){
-
-            mAdapter.clear();
-
-            mEmptyStateTextView.setVisibility(View.GONE);
-
-            View loadingIndicator = findViewById(R.id.loading_indicator);
-            loadingIndicator.setVisibility(View.VISIBLE);
-
-            getLoaderManager().restartLoader(EARTHQUAKE_LOADER_ID, null, this);
-        }
-    }*/
-
     @Override
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
 
@@ -120,7 +97,8 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
         uriBuilder.appendQueryParameter("order-by", orderBy);
         uriBuilder.appendQueryParameter("page-size", articleCount);
-        uriBuilder.appendQueryParameter("q", "covid");
+        uriBuilder.appendQueryParameter("show-references", "author");
+        uriBuilder.appendQueryParameter("q", "a");
         uriBuilder.appendQueryParameter("api-key", GUARDIAN_KEY);
 
         return new NewsLoader(this, uriBuilder.toString());
